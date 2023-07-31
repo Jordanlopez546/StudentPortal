@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login And Registration </title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+    <div class="hero">
+        <div class="form-box">
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+            <div class="button-box">
+                <div id="btn"></div>
+                <button class="toggle-btn" type="button" style="font-family: Georgia, 'Times New Roman', Times, serif;" onclick="login()">Log In</button>
+                <button class="toggle-btn" type="button" style="font-family: Georgia, 'Times New Roman', Times, serif;" onclick="register()">Register</button>
+            </div>
+            
+            <form id="login" action="login" method="POST" class="input-group">
+                <!-- {% csrf_token %}
+                <input type="email" name="email" placeholder="Your Email"  class="input-field" required> 
+                <input type="password" name="password" placeholder="Your Password"  class="input-field" required>
+                <button type="submit" class="submit-btn" style="font-family: Georgia, 'Times New Roman', Times, serif;"> Log In</button> -->
+            </form>
+            <!-- {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %} -->
+            <form id="register" method="POST" action="register" class="input-group">
+                {% csrf_token %}
+                <input type="date" class="input-field" placeholder=""  name="dob" id="dob" required>
+                <Select name="select" class="input-field" required>
+                    <option value="" class="input-field" aria-required="true" >Gender</option>
+                    <option value="Male" class="input-field" aria-required="true" >Male</option>
+                    <option value="Female" class="input-field" aria-required="true" >Female</option>
+                </Select>
+                <!-- <Select class="input-field" required>
+                    <option value="" aria-required="true">Marital Status</option>
+                    <option value="Married" aria-required="true">Married</option>
+                    <option value="Single" aria-required="true">Single</option>
+                </Select> -->
+                <!-- <input type="text" placeholder="Full Address" class="input-field" required> -->
+                <input type="text" name="username" id="" class="input-field" placeholder="Your Name" required>
+                <!-- <input type="text" name="username2" id="" class="input-field" placeholder="Last Name" required> -->
+                <input type="email" name="email" class="input-field" placeholder="Your Email" required> 
+                <input type="password" name="password" class="input-field" placeholder="Create Password" required>
+                <input type="password" name="password2" class="input-field" placeholder="Confirm Password" required>
+                
+                <button type="submit" class="submit-btn" style="font-family: Georgia, 'Times New Roman', Times, serif;"> Create Account</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        var x = document.getElementById("login");
+        var y = document.getElementById("register");
+        var z = document.getElementById("btn");
+
+        function register(){
+            x.style.left = "-400px";
+            y.style.left = "50px";
+            z.style.left = "110px";
+        }
+
+        function login(){
+            x.style.left = "50px";
+            y.style.left = "450px";
+            z.style.left = "0";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head >
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css ">
+    
+    <title>Student Portal | All Registered Course</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index' %}" style="font-family: Georgia, 'Times New Roman', Times, serif;"><i class="fa-solid fa-graduation-cap fa-lg"></i>  Student Portal</a>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarColor01"
+        aria-controls="navbarColor01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+            <a style="font-family: Georgia, 'Times New Roman', Times, serif;" class="nav-link" href="{% url 'index' %}"><i class="fa-solid fa-list fa-lg"></i> All Courses</a>
+            </li>
+            <li class="nav-item">
+            <a style="font-family: Georgia, 'Times New Roman', Times, serif;" class="nav-link" href="{% url 'settings' %}"><i class="fa-sharp fa-solid fa-gear"></i> Account Settings</a>
+            </li>
+            <li class="nav-item">
+            <a style="font-family: Georgia, 'Times New Roman', Times, serif;" class="nav-link" href="{% url 'registered_course' %}"><i class="fa-solid fa-registered"></i> All Registered Courses</a>
+            </li>
+            <li class="nav-item">
+            <a style="font-family: Georgia, 'Times New Roman', Times, serif;" class="nav-link" href="{% url 'grades' %}"><i class="fa-solid fa-square-poll-vertical"></i> Grades</a>
+            </li>
+            <li class="nav-item">
+            <a style="font-family: Georgia, 'Times New Roman', Times, serif;" class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+            </li>
+        </ul>
+        </div>
+        
+    </div>
+    
+    </nav>
+    <center>
+        {% for message in messages %}
+        <h4 style="font-family: Georgia, 'Times New Roman', Times, serif;">{{message}}</h4>
+        {% endfor %}
+    </center>
+    
+    <div class="container-fluid">
+        
+        <h3 class="m-4" style="font-family: Georgia, 'Times New Roman', Times, serif;">All Registered Courses</h3>
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-light ms-4 me-4 mb-4">
+                    <div class="card-header"> 
+                        <form class="d-flex" method="GET" action="{% url 'registered_course' %}">
+                        <input style="width: 35vw;" class="form-control me-sm-2" type="search" name="search" placeholder="Course name">
+                        <button style="margin-left: 5px; font-family: Georgia, 'Times New Roman', Times, serif;" class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                        </form></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <div class="table-responsive">
+                                {% if course_present %}
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif; color: #287bb5; font-weight: bold;">CODE</th>
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">COURSE</th>
+                                            <!-- <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">CLASS SIZE</th> -->
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">LECTURER</th>
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">TIME</th>
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">VENUE</th>
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">ROOM</th>
+                                            <th scope="col" style="font-family: Georgia, 'Times New Roman', Times, serif;color: #287bb5; font-weight: bold;">ACTIONS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for course in student_courses reversed %}
+                                        
+                                        <tr>
+                                            
+                                            <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.code}}</td>
+                                            <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.course}}</td>
+                                            <!-- <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.class_size}} -->
+                                            <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.lecturer}}</td>
+                                            <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.time}}</td>
+                                            <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.venue}}</td>
+                                            <td style="font-family: Georgia, 'Times New Roman', Times, serif;">{{course.the_course.room}}</td>
+                                            
+                                            <td>
+                                                <button type="button" class="btn btn-success me-1" href="" data-bs-toggle="modal" data-bs-target="#myModal{{course.id}}">
+                                                    <i class="fa-solid fa-circle-info fa-lg"></i>
+                                                </button>
+                                                <div class="modal" id="myModal{{course.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" style="font-family: Georgia, 'Times New Roman', Times, serif;">Course: <strong>{{course.the_course.course}}</strong></h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <ul class="list-unstyled">
+                                                                    <li style="font-family: Georgia, 'Times New Roman', Times, serif;">CODE: <strong>{{course.the_course.code}}</strong></li>
+                                                                    <!-- <li style="font-family: Georgia, 'Times New Roman', Times, serif;">COURSE: <strong>The Course</strong></li> -->
+                                                                    <li style="font-family: Georgia, 'Times New Roman', Times, serif;">LECTURER: <strong>{{course.the_course.lecturer}}</strong></li>
+                                                                    <li style="font-family: Georgia, 'Times New Roman', Times, serif;">TIME: <strong>{{course.the_course.time}}</strong></li>
+                                                                    <li style="font-family: Georgia, 'Times New Roman', Times, serif;">VENUE: <strong>{{course.the_course.venue}}</strong></li>
+                                                                    <li style="font-family: Georgia, 'Times New Roman', Times, serif;">ROOM: <strong>{{course.the_course.room}}</strong></li>
+                                                                    <li style="font-family: Georgia, 'Times New Roman', Times, serif;">DAY: <strong>{{course.the_course.day}}</strong></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="font-family: Georgia, 'Times New Roman', Times, serif;">Close</button>
+                                                                <form action="{% url 'courseunregister'  %}" method="POST">
+                                                                    {% csrf_token %}
+                                                                <input type="hidden" name="course_id" value="{{ course.the_course.id }}">
+                                                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" style="font-family: Georgia, 'Times New Roman', Times, serif;">UnRegister</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <p>No Records</p>
+                                {% endif %}
+                            </div>
+                        </p>
+                    </div> 
+                </div>
+                
+                
+                
+            </div>
+        </div>
+        
+    </div>
+    <footer class="mt-auto mb-4">
+        <div class="text-center">
+            <span>
+                Copyright &copy; <script>document.write(new Date().getFullYear())</script> Jordan Lopez
+            </span>
+        </div>
+    </footer>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+    ></script>
+</body>
+</html>

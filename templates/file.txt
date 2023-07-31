@@ -1,0 +1,63 @@
+for the register views:
+
+student_model = User.objects.get(username=username)
+                new_student_profile = StudentProfile.objects.create(
+                    student=student_model,
+                    id_student=student_model.id,
+                    dob=dob,
+                    gender=gender
+                )
+                new_student_profile.save()
+
+                messages.info(request, f'Welcome {username}.')
+                return redirect('setting')
+
+for the setting views:
+def setting(request):
+
+    student_profile = StudentProfile.objects.get(student=request.user)
+
+    if request.method == "POST":
+
+        if request.FILES.get('image') == None:
+            image = student_profile.profileimg
+            bio = request.POST['bio']
+            address = request.POST['address']
+            phone = request.POST['phone']
+
+            if len(phone) <= 7 and len(phone) == 11 and '+' not in phone:
+                messages.info(request, "Add '+220' to your phone number.")
+                return redirect('setting')
+            
+            nickname = request.POST['nickname']
+            
+            student_profile.profileimg = image
+            student_profile.bio = bio
+            student_profile.address = address
+            student_profile.phone_number = phone
+            student_profile.nickname = nickname
+            student_profile.save()
+
+        if request.FILES.get('image') != None:
+            image = request.FILES.get('image')
+            bio = request.POST['bio']
+            address = request.POST['address']
+            phone = request.POST['phone']
+
+            if len(phone) <= 7 and len(phone) == 11 and '+' not in phone:
+                messages.info(request, "Add '+220' to your phone number.")
+                return redirect('setting')
+            
+            nickname = request.POST['nickname']
+            
+            student_profile.profileimg = image
+            student_profile.bio = bio
+            student_profile.address = address
+            student_profile.phone_number = phone
+            student_profile.nickname = nickname
+            student_profile.save()
+
+        messages.info(request, 'Profile Saved.')
+
+    else:
+        return render(request, 'setting.html')
